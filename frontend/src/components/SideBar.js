@@ -2,11 +2,16 @@ import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import s from 'styled-components'
 import axios from 'axios'
-//import Upload from './Upload'
 import Settings from './Settings'
+import exit from '../../assets/exit.svg'
+import houseFill from '../../assets/house-fill.svg'
+import gearFill from '../../assets/gear-fill.svg'
+import gridFill from '../../assets/grid-1x2-fill.svg'
+import lockFill from '../../assets/lock-fill.svg'
 
 const Wrapper = s.div`
   border-right: 1px solid #d3d3d3;
+  height: 100vh;
 `
 
 const LeftSideBar = s.ul`
@@ -15,75 +20,78 @@ const LeftSideBar = s.ul`
   height: calc(100vh - 70px);
 `
 
-const SideBar = ({ setCurrentView }) => {
+const SideBar = ({ updateUser, userInfo, logout, setCurrentView }) => {
   const [name, setName] = useState('')
-  const [clearance, setClearance] = useState(-1)
-
-  const whoIsActive = async () => {
-    const res = await axios.get('/account/active')
-    return res
-  }
-
-  useEffect(() => {
-    const intervalID = setInterval(() => {
-      whoIsActive().then(res => {
-        setName(res.data.username)
-        setClearance(res.data.clearance)
-        console.log(res.data)
-      })
-    }, 1000)
-
-    return () => clearInterval(intervalID)
-  }, [])
+  const [clearance, setClearance] = useState(0)
 
   return (
     <>
-      <Settings />
-      <Wrapper className="col-2 bg-light p-0">
-        <LeftSideBar className="nav nav-pills flex-column">
-          <div className="nav-item border-bottom text-center pt-3">
-            <h6 className="text-center">Welcome {name}!</h6>
-          </div>
-          <li className="nav-item border-bottom">
+      <Settings updateUser={updateUser} userInfo={userInfo} />
+      <Wrapper className="col-auto bg-light">
+        <div className="row text-center py-3">
+          <div className="col-auto">
             <a
-              className="nav-link text-center"
               href="#/"
               onClick={e => {
                 e.preventDefault()
                 setCurrentView(0)
               }}
             >
-              Dashboard
+              <img src={houseFill} alt="" width="32" height="32" title="Home" />
             </a>
-          </li>
-          <li className="nav-item border-bottom">
+          </div>
+        </div>
+        <div className="row text-center py-3">
+          <div className="col-auto">
             <a
-              className="nav-link text-center"
               href="#/"
               onClick={e => {
                 e.preventDefault()
                 setCurrentView(1)
               }}
             >
-              My Rooms
+              <img src={gridFill} alt="" width="32" height="32" title="Rooms" />
             </a>
-          </li>
-          <li className="nav-item border-bottom">
+          </div>
+        </div>
+        {
+          (clearance === 0) && (
+            <div className="row text-center py-3">
+              <div className="col-auto">
+                <a
+                  href="#/"
+                  onClick={e => {
+                    e.preventDefault()
+                    setCurrentView(2)
+                  }}
+                >
+                  <img src={lockFill} alt="" width="32" height="32" title="Users" />
+                </a>
+              </div>
+            </div>
+          )
+        }
+        <div className="row text-center py-3">
+          <div className="col-auto">
             <a
-              className="nav-link text-center"
               href="#/"
-              onClick={e => {
-                e.preventDefault()
-                setCurrentView(2)
-              }}
+              data-toggle="modal"
+              data-target="#settingsBox"
             >
-              My Household
+              <img src={gearFill} alt="" width="32" height="32" title="Settings" />
             </a>
-          </li>
-          <li className="nav-item border-bottom">
-            <a className="nav-link text-center" href="#/" data-toggle="modal" data-target="#settingsBox">Settings</a>
-          </li>
-        </LeftSideBar>
+          </div>
+        </div>
+        <div className="row text-center py-3">
+          <div className="col-auto">
+            <a
+              href="#/"
+              onClick={() => logout()}
+            >
+              <img src={exit} alt="" width="32" height="32" title="Log Out" />
+            </a>
+          </div>
+        </div>
       </Wrapper>
     </>
   )

@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 
-const DashboardView = () => {
+const AdminView = () => {
   const [currentUser, setCurrentUser] = useState('')
 
   return (
     <div className="col-10">
-      <p> Dashboard! </p>
+      <p> Admin! </p>
     </div>
   )
 }
 
-export default DashboardView
+export default AdminView
