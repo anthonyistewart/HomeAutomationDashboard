@@ -3,7 +3,7 @@ const mqtt = require('mqtt')
 class MqttHandler {
   constructor() {
     this.client = null
-    this.host = ''
+    this.host = 'mqtt://192.168.1.100'
     this.auth = false // Set to true and add username and password if authentication required
     this.username = ''
     this.password = ''
@@ -28,6 +28,7 @@ class MqttHandler {
 
     // connection callback
     this.client.on('connect', () => {
+      this.client.publish('home/dashboard/status', 'true')
       console.log('mqtt client connected')
     })
 

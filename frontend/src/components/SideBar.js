@@ -20,13 +20,13 @@ const LeftSideBar = s.ul`
   height: calc(100vh - 70px);
 `
 
-const SideBar = ({ updateUser, userInfo, logout, setCurrentView }) => {
+const SideBar = ({ updateUser, userData, logout, setCurrentView }) => {
   const [name, setName] = useState('')
   const [clearance, setClearance] = useState(0)
 
   return (
     <>
-      <Settings updateUser={updateUser} userInfo={userInfo} />
+      <Settings updateUser={updateUser} userData={userData} />
       <Wrapper className="col-auto bg-light">
         <div className="row text-center py-3">
           <div className="col-auto">

@@ -5,8 +5,8 @@ const path = require('path')
 // const influx = require('influx')
 
 const AccountRouter = require('./routes/account')
-// const MqttRouter = require('./routes/mqtt')
-const MqttHandler = require('./mqtt_handler')
+const MqttRouter = require('./routes/mqtt')
+const ApiRouter = require('./routes/api')
 
 const app = express()
 const MONGO_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/ha-dashboard'
@@ -15,9 +15,6 @@ mongoose.connect(MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
-
-const mqttHandler = new MqttHandler()
-// mqttHandler.connect()
 
 app.use(express.static('dist'))
 app.use(express.json())
@@ -31,6 +28,8 @@ app.use(
 )
 
 app.use('/account', AccountRouter)
+app.use('/mqtt', MqttRouter)
+app.use('/api', ApiRouter)
 
 app.get('/favicon.ico', (_, res) => res.status(404).send())
 app.get('*', (_, res) => {

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 
-const Settings = ({ updateUser, userInfo }) => {
+const Settings = ({ updateUser, userData }) => {
   // const { first, last } = userInfo
-  const [firstName, setFirstName] = useState('Anthony')
-  const [lastName, setLastName] = useState('Stewart')
+  const [firstName, setFirstName] = useState(userData.first_name)
+  const [lastName, setLastName] = useState(userData.last_name)
 
   return (
     <div className="modal" id="settingsBox" tabIndex="-1" role="dialog">
@@ -71,6 +71,11 @@ const Settings = ({ updateUser, userInfo }) => {
               type="button"
               className="btn btn-primary"
               onClick={() => {
+                updateUser({
+                  userToEdit: userData.username,
+                  first_name: firstName,
+                  last_name: lastName,
+                })
                 console.log('Saved new settings')
                 $('#settingsBox').modal('hide')
               }}

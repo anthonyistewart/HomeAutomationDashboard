@@ -38,8 +38,9 @@ router.post('/login', (req, res) => {
     }
     if (user) {
       req.session.username = username
-      req.session.password = password
       req.session.clearance = user.clearance
+      req.session.first_name = user.first_name
+      req.session.last_name = user.last_name
       console.log(req.session)
       res.send(req.session.username)
     } else {
@@ -50,52 +51,55 @@ router.post('/login', (req, res) => {
 
 router.post('/logout', isAuthenticated, (req, res) => {
   req.session.username = ''
-  req.session.password = ''
   req.session.clearance = -1
+  req.session.first_name = ''
+  req.session.last_name = ''
   res.send('Logged Out')
 })
 
 router.post('/update', isAuthenticated, (req, res) => {
   const { username, password, clearance } = req.session
-  const { userToEdit } = req.body
+  const { userToEdit, first_name, last_name } = req.body
 
   // Updating another user
   if (userToEdit !== username) {
     // Needs to be an Admin
     if (clearance === 0) {
-      User.findOne({ username: userToEdit }, (err, user, next) => {
+      User.findOneAndUpdate({ username: userToEdit }, { first_name, last_name }, (err, user, next) => {
         if (err) {
           next(err)
         }
-        if (user) {
-          // Edit User Here
-          res.send('Update Successful')
-        } else {
-          res.send('User not found')
-        }
+        res.send('Update Successful')
       })
     } else {
       res.send('Access Denied')
     }
   } else {
-    User.findOne({ username }, (err, user, next) => {
+    User.findOneAndUpdate({ username }, { first_name, last_name }, (err, user, next) => {
       if (err) {
         next(err)
       }
-      if (user) {
-        // Edit User Here (not clearance)
-        res.send('Update Successful')
-      } else {
-        res.send('User not found')
-      }
+      res.send('Update Successful')
     })
   }
 })
 
 router.get('/active', (req, res) => {
-  res.send({
-    username: req.session.username,
-    clearance: req.session.clearance,
+  const { username } = req.session
+  User.findOne({ username }, (err, user, next) => {
+    if (err) {
+      next(err)
+    }
+    if (user) {
+      res.send({
+        username,
+        clearance: user.clearance,
+        first_name: user.first_name,
+        last_name: user.last_name,
+      })
+    } else {
+      res.send('')
+    }
   })
 })
 
