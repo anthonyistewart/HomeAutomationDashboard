@@ -1,12 +1,12 @@
 const { Schema, model } = require('mongoose')
 
-const deviceTypes = ['light', 'contact', 'energy']
+const deviceTypes = ['light', 'onoff']
 
 const deviceSchema = new Schema({
-  id: { type: Number, required: true },
+  device_id: { type: Number, required: true },
   name: { type: String, required: true },
   type: { type: String, enum: deviceTypes, required: true },
-  devices: [{ type: Number }],
+  mqtt_topic: { type: String, required: true },
 })
 
 module.exports = model('Device', deviceSchema)
