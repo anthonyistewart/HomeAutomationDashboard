@@ -64,5 +64,5 @@ if __name__ == '__main__':
     client.on_connect = on_connect
     client.on_message = on_message
 
-    client.connect("192.168.1.100", 1883, 60)
+    client.connect("mqtt_ip", 1883, 60)
     client.loop_forever()
