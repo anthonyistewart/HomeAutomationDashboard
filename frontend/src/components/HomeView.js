@@ -15,12 +15,26 @@ const HomeView = ({ userData }) => {
         {'!'}
       </h3>
       <div className="row p-5">
-        <div className="col-auto">
-          <TemperatureWidget />
-        </div>
-        <div className="col-auto">
-          <EnergyWidget />
-        </div>
+        {(userData.widget_1 === 1) && (
+          <div className="col-auto">
+            <EnergyWidget />
+          </div>
+        )}
+        {(userData.widget_1 === 2) && (
+          <div className="col-auto">
+            <TemperatureWidget />
+          </div>
+        )}
+        {(userData.widget_2 === 1) && (
+          <div className="col-auto">
+            <EnergyWidget />
+          </div>
+        )}
+        {(userData.widget_2 === 2) && (
+          <div className="col-auto">
+            <TemperatureWidget />
+          </div>
+        )}
       </div>
     </>
   )

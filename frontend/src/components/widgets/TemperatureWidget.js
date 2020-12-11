@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { PieChart, Pie, Label } from 'recharts'
 
-const TemperatureWidget = () => {
+const TemperatureWidget = ({ rooms }) => {
   const [data, setData] = useState('')
+  const [allRooms, setAllRooms] = useState(rooms)
   const [currentRoom, setCurrentRoom] = useState(0)
 
   const sampleData = [
@@ -28,34 +29,15 @@ const TemperatureWidget = () => {
 
           <div className="col align-self-center">
             <ul className="list-unstyled">
-              <li>
-                <a
-                  href="#/"
-                >
-                  Living Room
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#/"
-                >
-                  Dining Room
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#/"
-                >
-                  Kitchen
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#/"
-                >
-                  Bedroom
-                </a>
-              </li>
+              {(allRooms !== undefined) && allRooms.map(room => (
+                <li>
+                  <a
+                    href="#/"
+                  >
+                    {room.name}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
 

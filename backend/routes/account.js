@@ -59,13 +59,15 @@ router.post('/logout', isAuthenticated, (req, res) => {
 
 router.post('/update', isAuthenticated, (req, res) => {
   const { username, password, clearance } = req.session
-  const { userToEdit, first_name, last_name } = req.body
+  const { userToEdit, first_name, last_name, widget_1, widget_2 } = req.body
+
+  const newSettings = { first_name, last_name, widget_1, widget_2 }
 
   // Updating another user
   if (userToEdit !== username) {
     // Needs to be an Admin
     if (clearance === 0) {
-      User.findOneAndUpdate({ username: userToEdit }, { first_name, last_name }, (err, user, next) => {
+      User.findOneAndUpdate({ username: userToEdit }, newSettings, (err, user, next) => {
         if (err) {
           next(err)
         }
@@ -75,7 +77,7 @@ router.post('/update', isAuthenticated, (req, res) => {
       res.send('Access Denied')
     }
   } else {
-    User.findOneAndUpdate({ username }, { first_name, last_name }, (err, user, next) => {
+    User.findOneAndUpdate({ username }, newSettings, (err, user, next) => {
       if (err) {
         next(err)
       }
@@ -96,11 +98,24 @@ router.get('/active', (req, res) => {
         clearance: user.clearance,
         first_name: user.first_name,
         last_name: user.last_name,
+        widget_1: user.widget_1,
+        widget_2: user.widget_2,
       })
     } else {
       res.send('')
     }
   })
+})
+
+router.get('/users', isAuthenticated, async (req, res) => {
+  const { username, clearance } = req.session
+  // Must be an Admin
+  if (clearance === 0) {
+    const users = await User.find()
+    res.send(users)
+  } else {
+    res.send('Access Denied')
+  }
 })
 
 module.exports = router

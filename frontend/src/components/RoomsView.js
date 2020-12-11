@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { v4 as uuidv4 } from 'uuid'
 import axios from 'axios'
 import RoomWidget from './widgets/RoomWidget'
 import NewRoom from './NewRoom'
@@ -28,7 +29,7 @@ const RoomsView = ({ addRoom, addDevice }) => {
       <NewDevice addDevice={addDevice} rooms={rooms} />
       <div className="row p-5">
         {(rooms.map(room => (
-          <div className="col-auto">
+          <div className="col-auto" key={uuidv4}>
             <RoomWidget room={room} />
           </div>
         )))}

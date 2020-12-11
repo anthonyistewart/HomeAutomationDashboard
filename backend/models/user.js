@@ -18,6 +18,18 @@ const userSchema = new Schema({
   },
   first_name: { type: String, required: false, default: '' },
   last_name: { type: String, required: false, default: '' },
+  widget_1: {
+    type: Number,
+    min: 0,
+    max: 2,
+    default: 0,
+  },
+  widget_2: {
+    type: Number,
+    min: 0,
+    max: 2,
+    default: 0,
+  },
 })
 
 module.exports = model('User', userSchema)

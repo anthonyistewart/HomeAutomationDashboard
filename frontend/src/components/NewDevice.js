@@ -34,7 +34,6 @@ const NewDevice = ({ addDevice, rooms }) => {
               <select
                 className="form-control"
                 id="device-room"
-                onChange={e => console.log(e.target.value)}
               >
                 {(rooms.map(room => (
                   <option>{room.name}</option>
@@ -42,8 +41,8 @@ const NewDevice = ({ addDevice, rooms }) => {
               </select>
             </div>
 
-            <div className="form-group">
-              <label>Device Type:</label>
+            <label>Device Type:</label>
+            <div className="form-check form-check-inline">
               <input
                 name="typeRadio"
                 id="device-type1"
@@ -51,6 +50,9 @@ const NewDevice = ({ addDevice, rooms }) => {
                 type="radio"
                 value="light"
               />
+              <label htmlFor="device-type1">Light</label>
+            </div>
+            <div className="form-check">
               <input
                 name="typeRadio"
                 id="device-type2"
@@ -58,6 +60,7 @@ const NewDevice = ({ addDevice, rooms }) => {
                 type="radio"
                 value="onoff"
               />
+              <label htmlFor="device-type2">On Off</label>
             </div>
 
             <div className="form-group">

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
 const Settings = ({ updateUser, userData }) => {
-  // const { first, last } = userInfo
   const [firstName, setFirstName] = useState(userData.first_name)
   const [lastName, setLastName] = useState(userData.last_name)
 
@@ -41,27 +40,28 @@ const Settings = ({ updateUser, userData }) => {
 
             <div className="form-row p-3">
               <label>Widget 1:</label>
-              <select className="custom-select">
-                <option selected>Select a widget to display</option>
-                <option value="1">Power Consumption</option>
-                <option value="2">Temperature</option>
-                <option value="3">None</option>
+              <select
+                className="form-control"
+                id="widget-1"
+                defaultValue={userData.widget_1}
+              >
+                <option value={0}>None</option>
+                <option value={1}>Power Consumption</option>
+                <option value={2}>Temperature</option>
               </select>
             </div>
 
             <div className="form-row p-3">
               <label>Widget 2:</label>
-              <select className="custom-select">
-                <option selected>Select a widget to display</option>
-                <option value="1">Power Consumption</option>
-                <option value="2">Temperature</option>
-                <option value="3">None</option>
+              <select
+                className="form-control"
+                id="widget-2"
+                defaultValue={userData.widget_2}
+              >
+                <option value={0}>None</option>
+                <option value={1}>Power Consumption</option>
+                <option value={2}>Temperature</option>
               </select>
-            </div>
-
-            <div className="custom-control custom-switch py-3">
-              <input type="checkbox" className="custom-control-input" id="customSwitch1" />
-              <label className="custom-control-label" for="customSwitch1">Dark Mode</label>
             </div>
 
           </div>
@@ -75,6 +75,8 @@ const Settings = ({ updateUser, userData }) => {
                   userToEdit: userData.username,
                   first_name: firstName,
                   last_name: lastName,
+                  widget_1: $('#widget-1 option:selected').val(),
+                  widget_2: $('#widget-2 option:selected').val(),
                 })
                 console.log('Saved new settings')
                 $('#settingsBox').modal('hide')

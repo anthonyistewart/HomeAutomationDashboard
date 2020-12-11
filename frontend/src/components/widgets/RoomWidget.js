@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { v4 as uuidv4 } from 'uuid'
 import axios from 'axios'
 import { PieChart, Pie, Label } from 'recharts'
 import plugFill from '../../../assets/plug-fill.svg'
@@ -57,7 +58,7 @@ const RoomWidget = ({ room, addDevice }) => {
           </div>
         </div>
         {(devices.map(device => (
-          <div className="row py-3  border-bottom">
+          <div className="row py-3 border-bottom" key={uuidv4()}>
             <h6>{device.name}</h6>
             <div className="col">
               {(device.type === 'onoff') && (
@@ -70,11 +71,11 @@ const RoomWidget = ({ room, addDevice }) => {
             <div className="col">
               <div className="btn-group btn-group-toggle" data-toggle="buttons">
                 <label className="btn btn-secondary active">
-                  <input type="radio" name="options" id={device.mqtt_topic} autoComplete="off" onClick={() => sendMsg({ topic: `${room.topic_root}/${device.mqtt_topic}`, msg: "1" })} />
+                  <input type="radio" name="options" id={device.mqtt_topic} autoComplete="off" onClick={() => sendMsg({ topic: `${room.topic_root}/${device.mqtt_topic}/set`, msg: '1' })} />
                   On
                 </label>
                 <label className="btn btn-secondary">
-                  <input type="radio" name="options" id={device.mqtt_topic} autoComplete="off" onClick={() => sendMsg({ topic: `${room.topic_root}/${device.mqtt_topic}`, msg: "0" })} />
+                  <input type="radio" name="options" id={device.mqtt_topic} autoComplete="off" onClick={() => sendMsg({ topic: `${room.topic_root}/${device.mqtt_topic}/set`, msg: '0' })} />
                   Off
                 </label>
               </div>
