@@ -30,6 +30,11 @@ const Dashboard = ({ userData, isLoggedIn }) => {
     history.push('/')
   }
 
+  const addDevice = async data => {
+    await axios.post('/api/devices/add', data)
+    history.push('/')
+  }
+
   return (
     <>
       {(isLoggedIn) && (
@@ -46,7 +51,7 @@ const Dashboard = ({ userData, isLoggedIn }) => {
                 (currentView === 0) && (<HomeView userData={userData} />)
               }
               {
-                (currentView === 1) && (<RoomsView addRoom={addRoom} />)
+                (currentView === 1) && (<RoomsView addRoom={addRoom} addDevice={addDevice} />)
               }
               {
                 (currentView === 2) && (<AdminView />)
